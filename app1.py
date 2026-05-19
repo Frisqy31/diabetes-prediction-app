@@ -45,9 +45,17 @@ html, body, [class*="css"] {
 }
 
 .stApp {
-    background-color: #f5f7fa;
-}
 
+    background:
+    linear-gradient(
+        135deg,
+        #eef4ff 0%,
+        #f8fafc 40%,
+        #dbeafe 100%
+    ) !important;
+
+    min-height: 100vh;
+}
 .block-container {
     padding-top: 2rem;
     padding-left: 4rem;
@@ -61,63 +69,140 @@ html, body, [class*="css"] {
 ===================================================== */
 
 .title-box {
-    background: linear-gradient(90deg, #2563eb, #3b82f6);
-    padding: 65px 40px;
-    border-radius: 28px;
-    color: white;
-    text-align: center;
-    margin-bottom: 40px;
-    box-shadow: 0px 6px 25px rgba(0,0,0,0.18);
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background:
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6,
+        #60a5fa
+    );
+
+    padding: 90px 60px;
+
+    border-radius: 35px;
+
+    color: white;
+
+    margin-bottom: 55px;
+
+    box-shadow:
+        0 15px 40px rgba(37,99,235,0.35);
+
+    text-align: center;
 }
 
+    padding: 90px 60px;
+
+    border-radius: 35px;
+
+    color: white;
+
+    text-align: center;
+
+    margin-bottom: 55px;
+
+    box-shadow:
+        0 15px 40px rgba(37,99,235,0.35);
+
+    position: relative;
+
+    overflow: hidden;
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.4s ease;
+}
 .title-box h1 {
-    font-size: 52px !important;
+
+    font-size: 64px !important;
+
     font-weight: 800 !important;
-    margin-bottom: 18px !important;
+
+    margin-bottom: 25px !important;
+
+    line-height: 1.2;
+
     text-align: center !important;
+
+    width: 100%;
 }
 
 .title-box p {
-    font-size: 24px !important;
-    font-weight: 400;
-    text-align: center !important;
-    line-height: 1.8;
-    max-width: 900px;
-}
 
+    font-size: 26px !important;
+
+    font-weight: 400;
+
+    line-height: 2;
+
+    max-width: 900px;
+
+    margin: auto;
+
+    text-align: center !important;
+
+    color: rgba(255,255,255,0.95);
+}
+.title-box:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 20px 50px rgba(37,99,235,0.45);
+}
 /* =====================================================
    BUTTON
 ===================================================== */
 
 .stButton > button {
+
     width: 100%;
-    background: linear-gradient(90deg, #2563eb, #1d4ed8);
+
+    background:
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
     color: white;
+
     border-radius: 22px;
+
     height: 72px;
-    font-size: 24px;
-    font-weight: 600;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
     border: none;
+
     transition: 0.3s ease;
+
+    letter-spacing: 0.4px;
+
     box-shadow:
-        0px 5px 16px rgba(37,99,235,0.3);
+        0px 8px 22px rgba(37,99,235,0.30);
 }
 
 .stButton > button:hover {
-    transform: scale(1.02);
 
-    background: linear-gradient(
+    transform:
+        translateY(-3px)
+        scale(1.02);
+
+    background:
+    linear-gradient(
         135deg,
         #1d4ed8,
         #1e40af
     );
 
     color: white;
+
+    box-shadow:
+        0px 15px 30px rgba(37,99,235,0.35);
 }
 
 /* =====================================================
@@ -358,7 +443,28 @@ div[data-testid="column"] {
     padding-left: 10px;
     padding-right: 10px;
 }
+.main .block-container {
 
+    background:
+    rgba(255,255,255,0.45);
+
+    backdrop-filter: blur(12px);
+
+    border-radius: 35px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.08);
+
+    margin-top: 20px;
+
+    margin-bottom: 30px;
+}
+            .block-container {
+
+    padding-top: 1rem !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
