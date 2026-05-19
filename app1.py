@@ -3,6 +3,8 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+from fpdf import FPDF
+import tempfile
 
 # ======================================================
 # PAGE CONFIG
@@ -1200,3 +1202,135 @@ elif menu == "Prediksi Diabetes":
             Risiko diabetes rendah.
             Tetap pertahankan pola hidup sehat.
             """)
+        # ==================================================
+        # GENERATE PDF
+        # ==================================================
+
+        st.subheader("📄 Download Hasil Prediksi PDF")
+
+        class PDF(FPDF):
+            def header(self):
+                self.set_font('Arial', 'B', 16)
+                self.cell(0, 10, 'HASIL PREDIKSI RISIKO DIABETES', ln=True, align='C')
+                self.ln(10)
+
+        pdf = PDF()
+        pdf.add_page()
+
+        # =========================
+        # HASIL PREDIKSI
+        # =========================
+
+        pdf.set_font("Arial", 'B', 13)
+        pdf.cell(0, 10, "Hasil Prediksi", ln=True)
+
+        pdf.set_font("Arial", '', 12)
+
+        pdf.cell(
+            0,
+            10,
+            f"Status Prediksi : {predicted_label}",
+            ln=True
+        )
+
+        pdf.cell(
+            0,
+            10,
+            f"Tingkat Risiko : {positive_probability * 100:.2f}%",
+            ln=True
+        )
+
+        pdf.ln(5)
+
+        # =========================
+        # DATA INPUT PASIEN
+        # =========================
+
+        pdf.set_font("Arial", 'B', 13)
+        pdf.cell(0, 10, "Data Pasien", ln=True)
+
+        pdf.set_font("Arial", '', 11)
+
+        for key, value in input_dict.items():
+
+            nama_fitur = feature_translate.get(key, key)
+
+            pdf.multi_cell(
+                0,
+                8,
+                f"{nama_fitur} : {value}"
+            )
+
+        pdf.ln(5)
+
+        # =========================
+        # FAKTOR RISIKO
+        # =========================
+
+        pdf.set_font("Arial", 'B', 13)
+        pdf.cell(0, 10, "Faktor Risiko Utama", ln=True)
+
+        pdf.set_font("Arial", '', 11)
+
+        for i, row in top_feature.iterrows():
+
+            pdf.multi_cell(
+                0,
+                8,
+                f"- {row['Fitur']} ({row['Importance']:.3f})"
+            )
+
+        pdf.ln(5)
+
+        # =========================
+        # SARAN
+        # =========================
+
+        pdf.set_font("Arial", 'B', 13)
+        pdf.cell(0, 10, "Saran Kesehatan", ln=True)
+
+        pdf.set_font("Arial", '', 11)
+
+        if positive_probability >= 0.7:
+
+            saran = (
+                "Risiko diabetes cukup tinggi. "
+                "Disarankan segera melakukan pemeriksaan medis "
+                "dan menjaga pola hidup sehat."
+            )
+
+        elif positive_probability >= 0.4:
+
+            saran = (
+                "Risiko diabetes sedang. "
+                "Mulailah menjaga pola makan dan rutin berolahraga."
+            )
+
+        else:
+
+            saran = (
+                "Risiko diabetes rendah. "
+                "Tetap pertahankan pola hidup sehat."
+            )
+
+        pdf.multi_cell(0, 8, saran)
+
+        # =========================
+        # SAVE PDF
+        # =========================
+
+        with tempfile.NamedTemporaryFile(
+            delete=False,
+            suffix=".pdf"
+        ) as tmp_file:
+
+            pdf.output(tmp_file.name)
+
+            with open(tmp_file.name, "rb") as file:
+
+                st.download_button(
+                    label="⬇️ Download PDF",
+                    data=file,
+                    file_name="hasil_prediksi_diabetes.pdf",
+                    mime="application/pdf"
+                )
