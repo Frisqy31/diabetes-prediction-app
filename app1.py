@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from fpdf import FPDF
 import tempfile
+import base64
 
 # ======================================================
 # PAGE CONFIG
@@ -33,6 +34,49 @@ if "menu" not in st.session_state:
 menu = st.session_state.menu
 
 # ======================================================
+# BACKGROUND GLOBAL
+# ======================================================
+
+def get_base64(bin_file):
+    with open(bin_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+img = get_base64("BC MEDIS.png")
+
+page_bg = f"""
+<style>
+
+[data-testid="stAppViewContainer"] {{
+
+    background-image:
+    linear-gradient(
+        rgba(235,242,250,0.45),
+        rgba(235,242,250,0.45)
+    ),
+
+    url("data:image/png;base64,{img}");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}}
+
+.main {{
+    background: transparent;
+}}
+
+</style>
+"""
+
+st.markdown(page_bg, unsafe_allow_html=True)
+
+# ======================================================
+# CUSTOM CSS
+# ======================================================
+
+# ======================================================
 # CUSTOM CSS
 # ======================================================
 
@@ -44,19 +88,6 @@ st.markdown("""
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
     font-size: 20px !important;
-}
-
-.stApp {
-
-    background:
-    linear-gradient(
-        135deg,
-        #eef4ff 0%,
-        #f8fafc 40%,
-        #dbeafe 100%
-    ) !important;
-
-    min-height: 100vh;
 }
 .block-container {
     padding-top: 2rem;
@@ -92,28 +123,6 @@ html, body, [class*="css"] {
         0 15px 40px rgba(37,99,235,0.35);
 
     text-align: center;
-}
-
-    padding: 90px 60px;
-
-    border-radius: 35px;
-
-    color: white;
-
-    text-align: center;
-
-    margin-bottom: 55px;
-
-    box-shadow:
-        0 15px 40px rgba(37,99,235,0.35);
-
-    position: relative;
-
-    overflow: hidden;
-
-    backdrop-filter: blur(10px);
-
-    transition: 0.4s ease;
 }
 .title-box h1 {
 
@@ -206,142 +215,31 @@ html, body, [class*="css"] {
     box-shadow:
         0px 15px 30px rgba(37,99,235,0.35);
 }
+/* =====================================
+   LABEL FORM CLEAN
+===================================== */
 
-/* =====================================================
-   METRIC
-===================================================== */
+div[data-testid="stNumberInput"] label p,
+div[data-testid="stSelectbox"] label p {
 
-[data-testid="metric-container"] {
-
-    background: white;
-
-    border-radius: 30px;
-
-    padding: 45px 25px;
-
-    box-shadow:
-        0px 5px 20px rgba(0,0,0,0.08);
-
-    border: none;
-
-    min-height: 240px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    text-align: center;
-
-    transition: 0.3s ease;
-}
-
-[data-testid="metric-container"]:hover {
-
-    transform: translateY(-5px);
-
-    box-shadow:
-        0px 10px 30px rgba(0,0,0,0.12);
-}
-
-[data-testid="metric-container"] label {
-
-    width: 100% !important;
-
-    display: flex !important;
-
-    justify-content: center !important;
-
-    align-items: center !important;
-
-    text-align: center !important;
-
-    font-size: 28px !important;
-
-    font-weight: 600 !important;
-
-    color: #0f172a !important;
-
-    margin-bottom: 25px !important;
-}
-
-[data-testid="metric-container"] [data-testid="stMetricValue"] {
-
-    width: 100% !important;
-
-    display: flex !important;
-
-    justify-content: center !important;
-
-    align-items: center !important;
-
-    text-align: center !important;
-
-    font-size: 78px !important;
-
-    font-weight: 700 !important;
-
-    color: #2563eb !important;
-
-    line-height: 1 !important;
-}
-
-[data-testid="stMetricDelta"] {
-    display: none;
-}
-
-/* =====================================================
-   FORM
-===================================================== */
-
-.stSelectbox label,
-.stNumberInput label {
-
-    font-size: 24px !important;
-
-    font-weight: 700 !important;
-
-    color: #111827 !important;
-
-    line-height: 1.8 !important;
-}
-
-.stSelectbox div[data-baseweb="select"] {
-
-    min-height: 65px !important;
-
-    border-radius: 18px !important;
-}
-
-.stSelectbox div[data-baseweb="select"] span {
-
-    font-size: 24px !important;
+    font-size: 21px !important;
 
     font-weight: 600 !important;
 
     color: #111827 !important;
+
+    line-height: 1.4 !important;
+
+    letter-spacing: 0px !important;
+
+    opacity: 1 !important;
 }
 
-.stNumberInput input {
+div[data-testid="stNumberInput"] label,
+div[data-testid="stSelectbox"] label {
 
-    height: 65px !important;
-
-    font-size: 24px !important;
-
-    font-weight: 500 !important;
-
-    border-radius: 18px !important;
+    opacity: 1 !important;
 }
-
-.stSelectbox,
-.stNumberInput {
-
-    margin-bottom: 15px;
-}
-
 /* =====================================================
    ALERT
 ===================================================== */
@@ -448,24 +346,548 @@ div[data-testid="column"] {
 .main .block-container {
 
     background:
-    rgba(255,255,255,0.45);
+    rgba(255,255,255,0.72);
 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
 
     border-radius: 35px;
 
     padding: 40px;
 
     box-shadow:
-        0 10px 35px rgba(0,0,0,0.08);
+        0 10px 35px rgba(0,0,0,0.10);
 
     margin-top: 20px;
 
     margin-bottom: 30px;
 }
-            .block-container {
+.block-container {
 
     padding-top: 1rem !important;
+}
+/* Hilangkan background putih streamlit */
+.main {
+    background: transparent;
+}
+
+/* Container utama */
+.block-container {
+    padding-top: 2rem;  
+    padding-bottom: 2rem;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+.hero-box {
+
+    background: linear-gradient(
+        135deg,
+        #2563eb 0%,
+        #5fb5ff 100%
+    );
+
+    border-radius: 35px;
+
+    padding:
+    60px
+    40px
+    60px
+    40px;
+
+    text-align: center;
+
+    box-shadow:
+    0 10px 35px rgba(0,0,0,0.18);
+
+    margin-bottom: 40px;
+}
+
+/* Judul */
+.hero-title {
+
+    color: white;
+
+    font-size: 58px;
+
+    font-weight: 800;
+
+    margin-bottom: 18px;
+
+    letter-spacing: -1px;
+}
+
+/* Subtitle */
+.hero-subtitle {
+
+    color: rgba(255,255,255,0.95);
+
+    font-size: 24px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   CARD STATISTIK
+========================= */
+.stats-card {
+
+    background: rgba(255,255,255,0.82);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 24px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    box-shadow:
+    0 8px 24px rgba(0,0,0,0.10);
+
+    border:
+    1px solid rgba(255,255,255,0.25);
+
+    transition: 0.3s ease;
+}
+
+/* Hover card */
+.stats-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,0.14);
+}
+
+/* Label statistik */
+.stats-label {
+
+    font-size: 22px;
+
+    color: #374151;
+
+    margin-bottom: 12px;
+
+    font-weight: 500;
+}
+
+/* Angka statistik */
+.stats-value {
+
+    font-size: 64px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.stButton > button {
+
+    width: 100%;
+
+    background:
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color: white;
+
+    border: none;
+
+    border-radius: 20px;
+
+    padding: 18px 25px;
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+
+    box-shadow:
+    0 8px 20px rgba(37,99,235,0.35);
+}
+
+/* Hover tombol */
+.stButton > button:hover {
+
+    transform: translateY(-3px);
+
+    background:
+    linear-gradient(
+        135deg,
+        #1d4ed8,
+        #2563eb
+    );
+
+    box-shadow:
+    0 12px 28px rgba(37,99,235,0.45);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+[data-testid="stSidebar"] {
+
+    background:
+    rgba(255,255,255,0.78);
+
+    backdrop-filter: blur(12px);
+}
+
+/* =========================
+   TEXT GLOBAL
+========================= */
+h1,h2,h3,h4,h5,h6,p,span,label {
+
+    font-family: 'Segoe UI', sans-serif;
+}
+/* =========================
+   METRIC BACKGROUND PREMIUM
+========================= */
+
+[data-testid="metric-container"] {
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,0.92),
+        rgba(240,248,255,0.82)
+    ) !important;
+
+    border-radius: 30px !important;
+
+    padding: 40px 25px !important;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.12) !important;
+
+    border:
+        1px solid rgba(255,255,255,0.45) !important;
+
+    backdrop-filter: blur(12px) !important;
+
+    min-height: 230px !important;
+
+    transition: 0.3s ease !important;
+}
+
+/* Hover */
+[data-testid="metric-container"]:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 18px 35px rgba(37,99,235,0.18);
+}
+
+/* Label */
+[data-testid="metric-container"] label {
+
+    font-size: 28px !important;
+
+    font-weight: 700 !important;
+
+    color: #1e293b !important;
+
+    justify-content: center !important;
+
+    text-align: center !important;
+}
+
+/* Value */
+[data-testid="metric-container"] [data-testid="stMetricValue"] {
+
+    font-size: 80px !important;
+
+    font-weight: 800 !important;
+
+    color: #2563eb !important;
+
+    justify-content: center !important;
+
+    text-align: center !important;
+}
+/* =====================================
+   CUSTOM METRIC CARD
+===================================== */
+
+.custom-metric-card {
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,0.90),
+        rgba(240,248,255,0.80)
+    );
+
+    border-radius: 24px;
+
+    padding: 25px 15px;
+
+    text-align: center;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,0.10);
+
+    border:
+        1px solid rgba(255,255,255,0.45);
+
+    transition: 0.3s ease;
+
+    min-height: 140px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-direction: column;
+}
+
+/* Hover */
+.custom-metric-card:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 28px rgba(37,99,235,0.16);
+}
+
+/* Label */
+.metric-label {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #1e293b;
+
+    margin-bottom: 10px;
+}
+
+/* Value */
+.metric-value {
+
+    font-size: 52px;
+
+    font-weight: 800;
+
+    color: #2563eb;
+
+    line-height: 1;
+}
+/* =====================================
+   WARNING BOX
+===================================== */
+
+.warning-box {
+
+    background:
+    rgba(255, 243, 205, 0.94);
+
+    border-left:
+    7px solid #f59e0b;
+
+    border-radius: 18px;
+
+    padding: 14px 20px;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    color: #78350f;
+
+    backdrop-filter: blur(8px);
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.08);
+
+    margin-bottom: 18px;
+
+    width: fit-content;
+
+    max-width: 100%;
+}
+/* =====================================
+   HASIL PREDIKSI CARD
+===================================== */
+
+.prediction-card {
+
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.12);
+
+    margin-top: 20px;
+
+    margin-bottom: 25px;
+}
+
+/* Judul */
+.prediction-title {
+
+    font-size: 34px;
+
+    font-weight: 800;
+
+    color: #1e3a8a;
+
+    margin-bottom: 25px;
+}
+
+/* Status */
+.prediction-status {
+
+    font-size: 58px;
+
+    font-weight: 900;
+
+    margin-bottom: 10px;
+}
+
+/* Persentase */
+.prediction-percent {
+
+    font-size: 38px;
+
+    font-weight: 800;
+
+    margin-top: 10px;
+}
+
+/* Warna positif */
+.risk-high {
+
+    color: #dc2626;
+}
+
+/* Warna rendah */
+.risk-low {
+
+    color: #16a34a;
+}
+
+/* =====================================
+   FAKTOR RISIKO
+===================================== */
+
+.factor-card {
+
+    background: #eef5ff;
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,0.08);
+}
+
+.factor-title {
+
+    font-size: 26px;
+
+    font-weight: 800;
+
+    color: #1e40af;
+
+    margin-bottom: 15px;
+}
+
+.factor-text {
+
+    font-size: 20px;
+
+    line-height: 1.8;
+
+    color: #334155;
+}
+
+/* =====================================
+   SARAN KESEHATAN
+===================================== */
+
+.health-card {
+
+    background: #f0fdf4;
+
+    border-left: 8px solid #22c55e;
+
+    border-radius: 22px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,0.08);
+
+    margin-top: 15px;
+}
+
+.health-title {
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    color: #166534;
+
+    margin-bottom: 15px;
+}
+
+.health-text {
+
+    font-size: 21px;
+
+    line-height: 1.8;
+
+    color: #14532d;
+}
+/* =====================================
+   BESARKAN TEXT ALERT
+===================================== */
+
+.stWarning,
+.stSuccess,
+.stInfo {
+
+    font-size: 28px !important;
+
+    font-weight: 600 !important;
+
+    line-height: 1.9 !important;
+
+    padding: 28px !important;
+}
+
+/* Judul markdown di alert */
+.stWarning p,
+.stSuccess p,
+.stInfo p {
+
+    font-size: 28px !important;
+
+    line-height: 1.9 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -537,13 +959,28 @@ if menu == "Beranda":
     )
 
     with col1:
-        st.metric(label="📊 Dataset", value="520")
+        st.markdown("""
+        <div class="custom-metric-card">
+            <div class="metric-label">📊 Dataset</div>
+            <div class="metric-value">520</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col2:
-        st.metric(label="🧠 Jumlah Fitur", value="16")
+        st.markdown("""
+        <div class="custom-metric-card">
+            <div class="metric-label">🧠 Jumlah Fitur</div>
+            <div class="metric-value">16</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col3:
-        st.metric(label="🎯 Akurasi Model", value="97%")
+        st.markdown("""
+        <div class="custom-metric-card">
+            <div class="metric-label">🎯 Akurasi Model</div>
+            <div class="metric-value">97%</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.write("")
 
@@ -883,10 +1320,14 @@ elif menu == "Prediksi Diabetes":
         st.session_state.menu = "Beranda"
         st.rerun()
 
-    st.warning("""
-    Hasil prediksi ini bukan diagnosis medis final.
+    st.markdown("""
+    <div class="warning-box">
+
+    ⚠️ Hasil prediksi ini bukan diagnosis medis final.
     Silakan konsultasikan dengan tenaga kesehatan profesional.
-    """)
+
+    </div>
+    """, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
@@ -895,94 +1336,303 @@ elif menu == "Prediksi Diabetes":
     # ==================================================
 
     with col1:
-
+        
         age = st.number_input(
             "Umur (Age)",
             min_value=1,
             max_value=120,
             value=30
         )
-
-        gender = st.selectbox(
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Masukkan umur Anda saat ini dalam satuan tahun.
+        </div>
+        """, unsafe_allow_html=True)
+        gender_ui = st.selectbox(
             "Jenis Kelamin (Gender)",
-            ["Male", "Female"]
+            ["Laki-laki", "Perempuan"]
         )
-
+        gender = "Male" if gender_ui == "Laki-laki" else "Female"
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Pilih jenis kelamin sesuai dengan identitas biologis Anda.
+        </div>
+        """, unsafe_allow_html=True)
+        
+        def convert_yes_no(value):
+            return "Yes" if value == "Iya" else "No"
+        
         polyuria = st.selectbox(
             "Sering Buang Air Kecil (Polyuria)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
+        polyuria = convert_yes_no(polyuria)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Buang air kecil lebih sering dari biasanya, terutama pada malam hari, meskipun tidak sedang banyak minum.
+        </div>
+        """, unsafe_allow_html=True)
 
         polydipsia = st.selectbox(
             "Sering Haus (Polydipsia)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        polydipsia = convert_yes_no(polydipsia)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Merasa haus berlebihan dan ingin minum terus-menerus meskipun sudah cukup minum.
+        </div>
+        """, unsafe_allow_html=True)
+    
         weight_loss = st.selectbox(
             "Penurunan Berat Badan Drastis (Sudden Weight Loss)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
+        weight_loss = convert_yes_no(weight_loss)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Mengalami penurunan berat badan yang cukup signifikan tanpa melakukan diet atau olahraga khusus.
+        </div>
+        """, unsafe_allow_html=True)
 
         weakness = st.selectbox(
             "Tubuh Lemah / Mudah Lelah (Weakness)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
+        weakness = convert_yes_no(weakness)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Sering merasa lemas, kurang bertenaga, atau mudah lelah saat melakukan aktivitas sehari-hari.
+        </div>
+        """, unsafe_allow_html=True)
 
         polyphagia = st.selectbox(
             "Nafsu Makan Berlebih (Polyphagia)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        polyphagia = convert_yes_no(polyphagia)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Nafsu makan meningkat atau merasa lapar lebih sering dibandingkan biasanya.
+        </div>
+        """, unsafe_allow_html=True)
+       
         genital_thrush = st.selectbox(
             "Infeksi Jamur Kelamin (Genital Thrush)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
+        genital_thrush = convert_yes_no(genital_thrush)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Mengalami infeksi jamur pada area kelamin yang ditandai dengan gatal, kemerahan, atau rasa tidak nyaman.
+        </div>
+        """, unsafe_allow_html=True)
 
     # ==================================================
     # RIGHT
     # ==================================================
 
     with col2:
-
+         
         visual_blurring = st.selectbox(
             "Penglihatan Kabur (Visual Blurring)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        visual_blurring = convert_yes_no(visual_blurring)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Penglihatan menjadi kabur atau tidak sejelas biasanya saat melihat objek.
+        </div>
+        """, unsafe_allow_html=True)  
+    
         itching = st.selectbox(
             "Gatal-gatal (Itching)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        itching = convert_yes_no(itching)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Mengalami rasa gatal pada kulit yang sering muncul tanpa penyebab yang jelas.
+        </div>
+        """, unsafe_allow_html=True)
+        
         irritability = st.selectbox(
             "Mudah Marah / Sensitif (Irritability)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        irritability = convert_yes_no(irritability)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Lebih mudah marah, sensitif, atau merasa emosional dibandingkan biasanya.
+        </div>
+        """, unsafe_allow_html=True)
+        
         delayed_healing = st.selectbox(
             "Luka Sulit Sembuh (Delayed Healing)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        delayed_healing = convert_yes_no(delayed_healing)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Luka kecil atau goresan membutuhkan waktu lebih lama untuk sembuh dibandingkan biasanya.
+        </div>
+        """, unsafe_allow_html=True)
+        
         partial_paresis = st.selectbox(
             "Kelemahan Otot Sebagian (Partial Paresis)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        partial_paresis = convert_yes_no(partial_paresis)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Mengalami kelemahan pada sebagian anggota tubuh sehingga gerakan terasa tidak sekuat biasanya.
+        </div>
+        """, unsafe_allow_html=True)
+        
         muscle_stiffness = st.selectbox(
             "Kaku Otot (Muscle Stiffness)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        muscle_stiffness = convert_yes_no(muscle_stiffness)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Otot terasa kaku atau sulit digerakkan, terutama setelah beristirahat atau bangun tidur.
+        </div>
+        """, unsafe_allow_html=True)
+        
         alopecia = st.selectbox(
             "Kerontokan Rambut (Alopecia)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
-
+        alopecia = convert_yes_no(alopecia)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Mengalami kerontokan rambut yang lebih banyak dari biasanya hingga menyebabkan penipisan rambut.
+        </div>
+        """, unsafe_allow_html=True)
+        
         obesity = st.selectbox(
             "Obesitas (Obesity)",
-            ["Yes", "No"]
+            ["Iya", "Tidak"]
         )
+        obesity = convert_yes_no(obesity)
+        st.markdown("""
+        <div style="
+        font-size:15px;
+        font-weight:600;
+        color:#334155;
+        margin-top:-10px;
+        margin-bottom:8px;
+        line-height:1.5;
+        ">
+        ℹ️ Memiliki berat badan berlebih yang dapat meningkatkan risiko berbagai penyakit, termasuk diabetes.
+        </div>
+        """, unsafe_allow_html=True)
 
     st.write("")
     # ==================================================
@@ -1048,25 +1698,62 @@ elif menu == "Prediksi Diabetes":
 
         if predicted_label == "Positive":
 
-            st.error(
-                f"""
-                ⚠️ Pasien memiliki risiko diabetes
+            st.markdown(f"""
+            <div style="
+            background:white;
+            padding:25px;
+            border-radius:20px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.10);
+            border-left:8px solid #ef4444;
+            margin-bottom:20px;
+            ">
 
-                Tingkat Risiko:
-                {positive_probability * 100:.2f}%
-                """
-            )
+            <h3 style="
+            color:#ef4444;
+            font-size:34px;
+            font-weight:800;
+            margin-bottom:15px;
+            ">
+            ⚠️ Pasien Memiliki Risiko Diabetes
+            </h3>
+
+            <p style="
+            font-size:28px;
+            font-weight:700;
+            color:#111827;
+            ">
+            Tingkat Risiko: {positive_probability * 100:.2f}%
+            </p>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         else:
 
-            st.success(
-                f"""
-                ✅ Risiko diabetes rendah
+            st.markdown(f"""
+            <div style="
+            background:white;
+            padding:25px;
+            border-radius:20px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.10);
+            border-left:8px solid #22c55e;
+            margin-bottom:20px;
+            ">
 
-                Tingkat Risiko:
-                {positive_probability * 100:.2f}%
-                """
-            )
+            <h3 style="color:#16a34a;">
+            ✅ Risiko Diabetes Rendah
+            </h3>
+
+            <p style="
+            font-size:20px;
+            font-weight:600;
+            color:#111827;
+            ">
+            Tingkat Risiko: {positive_probability * 100:.2f}%
+            </p>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         # ==================================================
         # GAUGE
@@ -1088,7 +1775,11 @@ elif menu == "Prediksi Diabetes":
                 ]
             }
         ))
-
+        fig.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(size=18)
+        )
         st.plotly_chart(
             fig,
             use_container_width=True,
@@ -1099,7 +1790,6 @@ elif menu == "Prediksi Diabetes":
         # FEATURE IMPORTANCE
         # ==================================================
 
-        st.subheader("📈 Grafik Tingkat Pengaruh Fitur")
 
         importance_df = pd.DataFrame({
             "Fitur": [
@@ -1114,49 +1804,6 @@ elif menu == "Prediksi Diabetes":
             ascending=True
         )
 
-        st.dataframe(
-            importance_df,
-            use_container_width=True
-        )
-
-        # ==================================================
-        # CHART
-        # ==================================================
-
-        fig2, ax = plt.subplots(figsize=(12, 8))
-
-        bars = ax.barh(
-            importance_df["Fitur"],
-            importance_df["Importance"]
-        )
-
-        for bar in bars:
-
-            width = bar.get_width()
-
-            ax.text(
-                width + 0.003,
-                bar.get_y() + bar.get_height()/2,
-                f"{width:.3f}",
-                va='center'
-            )
-
-        ax.set_title(
-            "Grafik Tingkat Pengaruh Fitur",
-            fontsize=16,
-            fontweight='bold'
-        )
-
-        ax.grid(
-            axis='x',
-            linestyle='--',
-            alpha=0.5
-        )
-
-        plt.tight_layout()
-
-        st.pyplot(fig2)
-
         # ==================================================
         # TOP FEATURE
         # ==================================================
@@ -1170,10 +1817,35 @@ elif menu == "Prediksi Diabetes":
 
         for i, row in top_feature.iterrows():
 
-            st.info(
-                f"✅ {row['Fitur']} "
-                f"({row['Importance']:.3f})"
-            )
+            st.markdown(f"""
+            <div style="
+                background:#eef5ff;
+                padding:22px;
+                border-radius:18px;
+                margin-bottom:15px;
+                box-shadow:0 4px 15px rgba(0,0,0,0.08);
+                border-left:7px solid #2563eb;
+            ">
+
+            <div style="
+                font-size:30px;
+                font-weight:700;
+                color:#1e3a8a;
+                margin-bottom:8px;
+            ">
+                🧠 {row['Fitur']}
+            </div>
+
+            <div style="
+                font-size:24px;
+                color:#334155;
+            ">
+                Tingkat Pengaruh:
+                <b>{row['Importance']:.3f}</b>
+            </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         # ==================================================
         # RECOMMENDATION
@@ -1183,25 +1855,105 @@ elif menu == "Prediksi Diabetes":
 
         if positive_probability >= 0.7:
 
-            st.warning("""
+            st.markdown("""
+            <div style="
+            background:#fef2f2;
+            padding:24px;
+            border-radius:20px;
+            border-left:8px solid #ef4444;
+            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+            margin-top:15px;
+            ">
+
+            <div style="
+            font-size:34px;
+            font-weight:700;
+            color:#b91c1c;
+            margin-bottom:10px;
+            ">
+            ⚠️ Saran Kesehatan
+            </div>
+
+            <div style="
+            font-size:24px;
+            color:#374151;
+            line-height:1.8;
+            ">
             Risiko diabetes cukup tinggi.
             Disarankan segera melakukan pemeriksaan medis
             dan menjaga pola hidup sehat.
-            """)
+            </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         elif positive_probability >= 0.4:
 
-            st.info("""
+            st.markdown("""
+            <div style="
+            background:#fffbeb;
+            padding:24px;
+            border-radius:20px;
+            border-left:8px solid #f59e0b;
+            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+            margin-top:15px;
+            ">
+
+            <div style="
+            font-size:34px;
+            font-weight:700;
+            color:#92400e;
+            margin-bottom:10px;
+            ">
+            ⚠️ Saran Kesehatan
+            </div>
+
+            <div style="
+            font-size:18px;
+            color:#374151;
+            line-height:1.8;
+            ">
             Risiko diabetes sedang.
             Mulailah menjaga pola makan dan rutin berolahraga.
-            """)
+            </div>
+
+            </div>
+            """, unsafe_allow_html=True)
 
         else:
 
-            st.success("""
-            Risiko diabetes rendah.
-            Tetap pertahankan pola hidup sehat.
-            """)
+            st.markdown("""
+            <div style="
+            background:#f0fdf4;
+            padding:24px;
+            border-radius:20px;
+            border-left:8px solid #22c55e;
+            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+            margin-top:15px;
+            ">
+
+            <div style="
+            font-size:34px;
+            font-weight:700;
+            color:#166534;
+            margin-bottom:10px;
+            ">
+            ✅ Saran Kesehatan
+            </div>
+
+            <div style="
+            font-size:px;
+            font-weight:500;
+            color:#374151;
+            line-height:1.9;
+            ">
+            Risiko diabetes cukup tinggi.
+            Disarankan segera melakukan pemeriksaan medis
+            dan menjaga pola hidup sehat.
+            </div>
+
+            </div>
+            """, unsafe_allow_html=True)
         # ==================================================
         # GENERATE PDF
         # ==================================================
