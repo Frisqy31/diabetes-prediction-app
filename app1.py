@@ -904,6 +904,114 @@ h1,h2,h3,h4,h5,h6,p,span,label {
 
     line-height: 1.9 !important;
 }
+
+/* =====================================================
+   RESPONSIVE MOBILE
+===================================================== */
+
+@media screen and (max-width:768px){
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .block-container{
+
+        padding:18px !important;
+
+        margin-top:10px !important;
+
+        border-radius:18px !important;
+
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .title-box{
+
+        padding:30px 18px !important;
+
+        border-radius:20px !important;
+
+    }
+
+    .title-box h1{
+
+        font-size:34px !important;
+
+    }
+
+    .title-box p{
+
+        font-size:17px !important;
+
+        line-height:1.7 !important;
+
+    }
+
+    /* =========================
+       METRIC
+    ========================= */
+
+    .custom-metric-card{
+
+        min-height:95px !important;
+
+        padding:15px !important;
+
+    }
+
+    .metric-label{
+
+        font-size:15px !important;
+
+    }
+
+    .metric-value{
+
+        font-size:32px !important;
+
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .stButton > button{
+
+        height:55px !important;
+
+        font-size:17px !important;
+
+    }
+
+    /* =========================
+       WARNING
+    ========================= */
+
+    .warning-box{
+
+        padding:18px !important;
+
+    }
+
+    .warning-box h3{
+
+        font-size:22px !important;
+
+    }
+
+    .warning-box p{
+
+        font-size:16px !important;
+
+        line-height:1.7 !important;
+
+    }
+
+}
 </style>
 """, unsafe_allow_html=True)
 
