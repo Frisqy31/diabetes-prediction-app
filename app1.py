@@ -126,7 +126,7 @@ html, body, [class*="css"] {
 }
 .title-box h1 {
 
-    font-size: 64px !important;
+    font-size: clamp(30px, 5vw, 64px);
 
     font-weight: 800 !important;
 
@@ -141,7 +141,7 @@ html, body, [class*="css"] {
 
 .title-box p {
 
-    font-size: 26px !important;
+    font-size: clamp(16px, 2vw, 26px);
 
     font-weight: 400;
 
@@ -269,7 +269,7 @@ div[data-testid="stSelectbox"] label {
 }
 
 .section-title{
-    font-size:42px;
+    font-size: clamp(24px, 3vw, 42px);
     font-weight:800;
     color:#1e293b;
     margin-bottom:20px;
@@ -604,7 +604,7 @@ h1,h2,h3,h4,h5,h6,p,span,label {
 
 /* Value */
 [data-testid="metric-container"] [data-testid="stMetricValue"] {
-
+.metric-value
     font-size: 80px !important;
 
     font-weight: 800 !important;
@@ -667,7 +667,7 @@ h1,h2,h3,h4,h5,h6,p,span,label {
 /* Label */
 .metric-label {
 
-    font-size: 20px;
+    font-size: clamp(15px, 2vw, 20px);
 
     font-weight: 700;
 
@@ -679,8 +679,8 @@ h1,h2,h3,h4,h5,h6,p,span,label {
 /* Value */
 .metric-value {
 
-    font-size: 52px;
-
+    font-size: clamp(30px, 4vw, 52px);
+            
     font-weight: 800;
 
     color: #2563eb;
