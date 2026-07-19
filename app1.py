@@ -691,37 +691,52 @@ h1,h2,h3,h4,h5,h6,p,span,label {
    WARNING BOX
 ===================================== */
 
-.warning-box {
+.warning-box{
 
-    background:
-    rgba(255, 243, 205, 0.94);
+    background:#fef2f2;
 
-    border-left:
-    7px solid #f59e0b;
+    border-left:8px solid #dc2626;
 
-    border-radius: 18px;
+    border-radius:18px;
 
-    padding: 14px 20px;
+    padding:24px;
 
-    font-size: 18px;
+    margin-bottom:25px;
 
-    font-weight: 600;
+    box-shadow:0 6px 18px rgba(220,38,38,0.12);
 
-    line-height: 1.5;
-
-    color: #78350f;
-
-    backdrop-filter: blur(8px);
-
-    box-shadow:
-        0 6px 18px rgba(0,0,0,0.08);
-
-    margin-bottom: 18px;
-
-    width: fit-content;
-
-    max-width: 100%;
 }
+
+.warning-box h3{
+
+    color:#b91c1c;
+
+    font-size:30px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+}
+
+.warning-box p{
+
+    color:#7f1d1d;
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    margin-bottom:10px;
+
+}
+
+.warning-box h3{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
 /* =====================================
    HASIL PREDIKSI CARD
 ===================================== */
@@ -1323,8 +1338,16 @@ elif menu == "Prediksi Diabetes":
     st.markdown("""
     <div class="warning-box">
 
-    ⚠️ Hasil prediksi ini bukan diagnosis medis final.
-    Silakan konsultasikan dengan tenaga kesehatan profesional.
+    <h3>⚠️ PERINGATAN</h3>
+
+    <p>
+    Hasil prediksi yang ditampilkan oleh sistem ini hanya digunakan sebagai
+    alat skrining awal berdasarkan gejala klinis dan bukan merupakan
+    diagnosis medis.
+    Untuk memperoleh diagnosis yang akurat serta penanganan yang tepat,
+    pengguna disarankan berkonsultasi dengan dokter atau tenaga kesehatan
+    profesional.
+    </p>
 
     </div>
     """, unsafe_allow_html=True)
@@ -1942,14 +1965,15 @@ elif menu == "Prediksi Diabetes":
             </div>
 
             <div style="
-            font-size:px;
+            font-size:24px;
             font-weight:500;
             color:#374151;
             line-height:1.9;
             ">
-            Risiko diabetes cukup tinggi.
-            Disarankan segera melakukan pemeriksaan medis
-            dan menjaga pola hidup sehat.
+            Risiko diabetes rendah.
+            Tetap pertahankan pola hidup sehat,
+            konsumsi makanan bergizi seimbang,
+            dan lakukan aktivitas fisik secara rutin.
             </div>
 
             </div>
